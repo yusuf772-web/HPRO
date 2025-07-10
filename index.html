@@ -3,7 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aplikasi Kalender Modern</title>
+    <title>Aplikasi Kalender HPRO</title>
+    
+    <!-- PWA (Progressive Web App) Meta Tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Kalender HPRO">
+    <meta name="theme-color" content="#2563eb">
+    <link rel="manifest" href="manifest.json">
+    <!-- Updated Icon -->
+    <link rel="apple-touch-icon" href="https://instagram.fcgk42-1.fna.fbcdn.net/v/t51.2885-19/349035095_6380478465372384_4538678837004863365_n.jpg?stp=dst-jpg_s150x150_tt6&_nc_ht=instagram.fcgk42-1.fna.fbcdn.net&_nc_cat=100&_nc_oc=Q6cZ2QEEXF3WTemPkv2z_EomujqrrjKyq4mZbpWkDz7VvQp-pcfWcUTtE3VHV-f9-oTEakQ&_nc_ohc=e7UjKU7tTzYQ7kNvwFyZsrO&_nc_gid=q6BCKkGdodvJrIhHmWLYZQ&edm=AP4sbd4BAAAA&ccb=7-5&oh=00_AfSCYi21_EN2MNg3FNqC5AFQ9uncDneHwLRt_MYzFF3SlA&oe=68759C8C&_nc_sid=7a9f4b">
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -94,7 +104,7 @@
 <body class="text-slate-800">
 
     <div id="app-view" class="container mx-auto p-4 md:p-8 max-w-7xl">
-        <h1 class="text-3xl font-bold text-slate-900 mb-6 text-center">Kalender Tim</h1>
+        <h1 class="text-3xl font-bold text-slate-900 mb-6 text-center">Kalender HPRO</h1>
 
         <div class="grid grid-cols-1 lg:grid-cols-5 gap-8">
             <div class="lg:col-span-3">
@@ -138,6 +148,13 @@
         <div class="modal-backdrop fixed inset-0"></div>
         <div class="modal-content bg-white rounded-xl shadow-2xl p-6 w-full max-w-md m-4 relative"></div>
     </div>
+    
+    <!-- Toast Notification -->
+    <div id="toast-notification" class="fixed bottom-5 right-5 bg-slate-800 text-white py-3 px-5 rounded-lg shadow-lg flex items-center gap-3 transform translate-y-20 opacity-0 transition-all duration-300 ease-out z-50">
+        <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        <p id="toast-message"></p>
+        <button id="close-toast" class="text-slate-400 hover:text-white text-2xl leading-none">&times;</button>
+    </div>
 
 
     <script type="module">
@@ -162,6 +179,7 @@
         let events = [];
         let currentFilter = 'all'; 
         let unsubscribe;
+        let notificationShown = false;
 
         const categoryColors = {
             konten: 'border-blue-500',
@@ -456,6 +474,16 @@
                 querySnapshot.forEach((doc) => {
                     events.push({ id: doc.id, ...doc.data() });
                 });
+
+                if (!notificationShown) {
+                    const todayString = toYYYYMMDD(new Date());
+                    const eventsForToday = events.filter(event => event.date === todayString);
+                    if (eventsForToday.length > 0) {
+                        showToast(`Anda memiliki ${eventsForToday.length} jadwal hari ini.`);
+                        notificationShown = true;
+                    }
+                }
+
                 renderCalendar();
                 showEventsForDate(selectedDate);
             }, (error) => {
@@ -589,6 +617,25 @@
             document.getElementById('notification-ok-btn').addEventListener('click', closeModal);
             modalTemplate.querySelector('.modal-backdrop').addEventListener('click', closeModal);
             modalTemplate.classList.remove('hidden');
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast-notification');
+            const toastMessage = document.getElementById('toast-message');
+            const closeToastBtn = document.getElementById('close-toast');
+
+            toastMessage.textContent = message;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+
+            const hideToast = () => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-20', 'opacity-0');
+            };
+
+            closeToastBtn.onclick = hideToast;
+
+            setTimeout(hideToast, 5000); // Hide after 5 seconds
         }
 
         function handleStatusChange(e) {
