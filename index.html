@@ -9,7 +9,7 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f8fafc; /* slate-50 */
+            background-color: #f8fafc;
         }
         .calendar-grid {
             display: grid;
@@ -24,7 +24,7 @@
             border-radius: 50%;
         }
         .modal-backdrop {
-            background-color: rgba(15, 23, 42, 0.5); /* slate-900 with 50% opacity */
+            background-color: rgba(15, 23, 42, 0.5);
             transition: opacity 0.3s ease;
         }
         .modal-content {
@@ -41,21 +41,20 @@
             opacity: 0;
         }
         button:disabled {
-            background-color: #94a3b8; /* slate-400 */
+            background-color: #94a3b8;
             cursor: not-allowed;
             opacity: 0.7;
         }
         .filter-btn {
-            color: #475569; /* slate-600 */
+            color: #475569;
             background-color: transparent;
             transition: all 0.2s ease-in-out;
         }
         .filter-btn.active {
             background-color: white;
-            color: #1e293b; /* slate-800 */
+            color: #1e293b;
             box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
-        /* Custom Checkbox */
         .custom-checkbox {
             -webkit-appearance: none;
             appearance: none;
@@ -65,7 +64,7 @@
             color: currentColor;
             width: 1.25em;
             height: 1.25em;
-            border: 0.15em solid #cbd5e1; /* slate-300 */
+            border: 0.15em solid #cbd5e1;
             border-radius: 0.25rem;
             transform: translateY(-0.075em);
             display: grid;
@@ -79,7 +78,7 @@
             height: 0.65em;
             transform: scale(0);
             transition: 120ms transform ease-in-out;
-            box-shadow: inset 1em 1em #2563eb; /* blue-600 */
+            box-shadow: inset 1em 1em #2563eb;
             transform-origin: bottom left;
             clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
         }
@@ -87,28 +86,23 @@
             transform: scale(1);
         }
         .custom-checkbox:checked {
-            background-color: #2563eb; /* blue-600 */
+            background-color: #2563eb;
             border-color: #2563eb;
         }
     </style>
 </head>
 <body class="text-slate-800">
 
-    <div class="container mx-auto p-4 md:p-8 max-w-7xl">
-        <h1 class="text-3xl font-bold text-slate-900 mb-6 text-center">Kalender Jadwal Saya</h1>
+    <div id="app-view" class="container mx-auto p-4 md:p-8 max-w-7xl">
+        <h1 class="text-3xl font-bold text-slate-900 mb-6 text-center">Kalender Tim</h1>
 
         <div class="grid grid-cols-1 lg:grid-cols-5 gap-8">
-            
             <div class="lg:col-span-3">
                 <div class="bg-white p-6 rounded-2xl shadow-lg">
                     <div class="flex items-center justify-between mb-4">
-                        <button id="prev-month" class="p-2 rounded-full hover:bg-slate-100 transition-colors">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
-                        </button>
+                        <button id="prev-month" class="p-2 rounded-full hover:bg-slate-100 transition-colors"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg></button>
                         <h2 id="month-year" class="text-xl font-semibold text-slate-700"></h2>
-                        <button id="next-month" class="p-2 rounded-full hover:bg-slate-100 transition-colors">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
-                        </button>
+                        <button id="next-month" class="p-2 rounded-full hover:bg-slate-100 transition-colors"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg></button>
                     </div>
                     <div class="calendar-grid text-center font-medium text-sm text-slate-500 mb-2">
                         <div>Min</div><div>Sen</div><div>Sel</div><div>Rab</div><div>Kam</div><div>Jum</div><div>Sab</div>
@@ -133,9 +127,7 @@
             <div class="lg:col-span-2">
                  <h3 class="text-2xl font-bold text-slate-900 mb-4">Jadwal untuk <span id="selected-date-display" class="text-blue-600"></span></h3>
                  <div class="bg-white p-2 rounded-xl shadow-lg min-h-[50vh] lg:max-h-[70vh] overflow-y-auto">
-                    <div id="event-list" class="space-y-2">
-                        <!-- Jadwal akan ditampilkan di sini -->
-                    </div>
+                    <div id="event-list" class="space-y-2"></div>
                  </div>
             </div>
         </div>
@@ -144,17 +136,14 @@
     <!-- Modal Base -->
     <div id="modal-template" class="modal fixed inset-0 z-50 flex items-center justify-center hidden">
         <div class="modal-backdrop fixed inset-0"></div>
-        <div class="modal-content bg-white rounded-xl shadow-2xl p-6 w-full max-w-md m-4 relative">
-            <!-- Konten Modal akan ditampilkan di sini -->
-        </div>
+        <div class="modal-content bg-white rounded-xl shadow-2xl p-6 w-full max-w-md m-4 relative"></div>
     </div>
 
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getFirestore, collection, addDoc, onSnapshot, query, doc, deleteDoc, updateDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-        import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-
+        
         const firebaseConfig = {
           apiKey: "AIzaSyDXvjgL9dY_rBg6bcq7bvf6K1yVgCGnr9U",
           authDomain: "hpro-c1ec0.firebaseapp.com",
@@ -166,14 +155,13 @@
         
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
-        const auth = getAuth(app);
 
         let currentMonth = new Date().getMonth();
         let currentYear = new Date().getFullYear();
         let selectedDate = new Date();
         let events = [];
-        let userId = null;
-        let currentFilter = 'all'; // 'all', 'done', 'not-done'
+        let currentFilter = 'all'; 
+        let unsubscribe;
 
         const categoryColors = {
             konten: 'border-blue-500',
@@ -187,27 +175,12 @@
             flayer: 'bg-orange-500',
             default: 'bg-gray-500'
         };
-
         const categoryNames = {
             konten: 'Konten',
             agenda: 'Agenda',
             flayer: 'Flayer (Hari Penting)'
         };
-
-        const monthYearEl = document.getElementById('month-year');
-        const calendarDatesEl = document.getElementById('calendar-dates');
-        const prevMonthBtn = document.getElementById('prev-month');
-        const nextMonthBtn = document.getElementById('next-month');
-        const eventListEl = document.getElementById('event-list');
-        const selectedDateDisplayEl = document.getElementById('selected-date-display');
         
-        const openAddModalBtn = document.getElementById('open-add-modal-btn');
-        const modalTemplate = document.getElementById('modal-template');
-        
-        const filterAllBtn = document.getElementById('filter-all');
-        const filterDoneBtn = document.getElementById('filter-done');
-        const filterNotDoneBtn = document.getElementById('filter-not-done');
-
         function getFormFieldsHTML(category, prefix = '') {
             switch (category) {
                 case 'konten':
@@ -249,6 +222,8 @@
         }
 
         function renderCalendar() {
+            const calendarDatesEl = document.getElementById('calendar-dates');
+            const monthYearEl = document.getElementById('month-year');
             calendarDatesEl.innerHTML = '';
             const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay();
             const lastDateOfMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
@@ -294,6 +269,8 @@
         }
 
         function showEventsForDate(date) {
+            const selectedDateDisplayEl = document.getElementById('selected-date-display');
+            const eventListEl = document.getElementById('event-list');
             const dateString = toYYYYMMDD(date);
             selectedDateDisplayEl.textContent = date.toLocaleDateString('id-ID', { day: 'numeric', month: 'long' });
             
@@ -378,7 +355,7 @@
             const data = {
                 category: category,
                 date: toYYYYMMDD(selectedDate),
-                status: false, // Default status
+                status: false,
                 createdAt: serverTimestamp()
             };
 
@@ -400,7 +377,7 @@
             }
 
             try {
-                const eventCollection = collection(db, `users/${userId}/events`);
+                const eventCollection = collection(db, 'public_calendar');
                 await addDoc(eventCollection, data);
                 closeModal();
             } catch (error) {
@@ -439,9 +416,8 @@
                     break;
             }
 
-            if (!userId) return;
             try {
-                const eventDocRef = doc(db, `users/${userId}/events`, eventId);
+                const eventDocRef = doc(db, 'public_calendar', eventId);
                 await updateDoc(eventDocRef, data);
                 closeModal();
             } catch (error) {
@@ -451,9 +427,8 @@
         }
 
         async function updateEventStatus(eventId, status) {
-             if (!userId) return;
             try {
-                const eventDocRef = doc(db, `users/${userId}/events`, eventId);
+                const eventDocRef = doc(db, 'public_calendar', eventId);
                 await updateDoc(eventDocRef, { status });
             } catch (error) {
                 console.error("Error updating status: ", error);
@@ -462,9 +437,8 @@
         }
 
         async function deleteEvent(eventId) {
-            if (!userId) return;
             try {
-                const eventDocRef = doc(db, `users/${userId}/events`, eventId);
+                const eventDocRef = doc(db, 'public_calendar', eventId);
                 await deleteDoc(eventDocRef);
             } catch (error) {
                 console.error("Error deleting document: ", error);
@@ -473,11 +447,11 @@
         }
         
         function listenForEvents() {
-            if (!userId) return;
-            const eventCollection = collection(db, `users/${userId}/events`);
+            if (unsubscribe) unsubscribe(); 
+            const eventCollection = collection(db, 'public_calendar');
             const q = query(eventCollection);
             
-            onSnapshot(q, (querySnapshot) => {
+            unsubscribe = onSnapshot(q, (querySnapshot) => {
                 events = [];
                 querySnapshot.forEach((doc) => {
                     events.push({ id: doc.id, ...doc.data() });
@@ -486,15 +460,21 @@
                 showEventsForDate(selectedDate);
             }, (error) => {
                 console.error("Error listening to events: ", error);
-                showNotification("Gagal memuat data jadwal. Periksa koneksi Anda.", true);
+                if (error.code === 'permission-denied') {
+                    showNotification("Error: Izin Ditolak. Pastikan Aturan Keamanan (Security Rules) di Firebase sudah diatur untuk mengizinkan akses publik.");
+                } else {
+                    showNotification("Gagal memuat data jadwal. Periksa koneksi Anda.");
+                }
             });
         }
         
         function closeModal() {
+            const modalTemplate = document.getElementById('modal-template');
             modalTemplate.classList.add('hidden');
         }
 
         function openAddModal() {
+            const modalTemplate = document.getElementById('modal-template');
             const modalContent = modalTemplate.querySelector('.modal-content');
             modalContent.innerHTML = `
                 <h3 class="text-xl font-bold mb-4">Tambah Jadwal Baru</h3>
@@ -530,6 +510,7 @@
 
         function openEditModal(e) {
             const event = JSON.parse(e.currentTarget.dataset.event);
+            const modalTemplate = document.getElementById('modal-template');
             const modalContent = modalTemplate.querySelector('.modal-content');
 
             modalContent.innerHTML = `
@@ -597,20 +578,15 @@
             modalTemplate.classList.remove('hidden');
         }
 
-        function showNotification(message, showRetry = false) {
+        function showNotification(message) {
             const modalContent = modalTemplate.querySelector('.modal-content');
             modalContent.innerHTML = `
                 <p class="text-slate-800 text-center">${message}</p>
                 <div class="mt-6 flex justify-center gap-3">
-                    <button id="notification-retry-btn" class="${showRetry ? '' : 'hidden'} px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">Coba Lagi</button>
-                    <button id="notification-ok-btn" class="${showRetry ? 'hidden' : ''} px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">Oke</button>
+                    <button id="notification-ok-btn" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">Oke</button>
                 </div>
             `;
             document.getElementById('notification-ok-btn').addEventListener('click', closeModal);
-            document.getElementById('notification-retry-btn').addEventListener('click', () => {
-                closeModal();
-                attemptSignIn();
-            });
             modalTemplate.querySelector('.modal-backdrop').addEventListener('click', closeModal);
             modalTemplate.classList.remove('hidden');
         }
@@ -650,67 +626,60 @@
             return new Date(parts[0], parts[1] - 1, parts[2]);
         }
 
-        async function attemptSignIn() {
-            try {
-                await signInAnonymously(auth);
-            } catch (error) {
-                console.error("Authentication failed:", error);
-                showNotification("Gagal terhubung ke server.", true);
-            }
-        }
-
         function updateFilterButtons(activeFilter) {
+            const filterAllBtn = document.getElementById('filter-all');
+            const filterDoneBtn = document.getElementById('filter-done');
+            const filterNotDoneBtn = document.getElementById('filter-not-done');
             [filterAllBtn, filterDoneBtn, filterNotDoneBtn].forEach(btn => {
                 btn.classList.remove('active');
             });
             document.getElementById(`filter-${activeFilter.replace('_','-')}`).classList.add('active');
         }
-
+        
         // --- EVENT LISTENERS ---
-        openAddModalBtn.addEventListener('click', openAddModal);
-
-        prevMonthBtn.addEventListener('click', () => {
-            currentMonth--;
-            if (currentMonth < 0) { currentMonth = 11; currentYear--; }
-            renderCalendar();
-        });
-
-        nextMonthBtn.addEventListener('click', () => {
-            currentMonth++;
-            if (currentMonth > 11) { currentMonth = 0; currentYear++; }
-            renderCalendar();
-        });
-
-        filterAllBtn.addEventListener('click', () => {
-            currentFilter = 'all';
-            updateFilterButtons('all');
-            showEventsForDate(selectedDate);
-        });
-        filterDoneBtn.addEventListener('click', () => {
-            currentFilter = 'done';
-            updateFilterButtons('done');
-            showEventsForDate(selectedDate);
-        });
-        filterNotDoneBtn.addEventListener('click', () => {
-            currentFilter = 'not-done';
-            updateFilterButtons('not-done');
-            showEventsForDate(selectedDate);
-        });
-
-
         window.onload = () => {
-            onAuthStateChanged(auth, (user) => {
-                if (user) {
-                    userId = user.uid;
-                    listenForEvents();
-                } else {
-                    attemptSignIn();
-                }
-            });
+            const openAddModalBtn = document.getElementById('open-add-modal-btn');
+            const prevMonthBtn = document.getElementById('prev-month');
+            const nextMonthBtn = document.getElementById('next-month');
+            const filterAllBtn = document.getElementById('filter-all');
+            const filterDoneBtn = document.getElementById('filter-done');
+            const filterNotDoneBtn = document.getElementById('filter-not-done');
             
+            openAddModalBtn.addEventListener('click', openAddModal);
+
+            prevMonthBtn.addEventListener('click', () => {
+                currentMonth--;
+                if (currentMonth < 0) { currentMonth = 11; currentYear--; }
+                renderCalendar();
+            });
+
+            nextMonthBtn.addEventListener('click', () => {
+                currentMonth++;
+                if (currentMonth > 11) { currentMonth = 0; currentYear++; }
+                renderCalendar();
+            });
+
+            filterAllBtn.addEventListener('click', () => {
+                currentFilter = 'all';
+                updateFilterButtons('all');
+                showEventsForDate(selectedDate);
+            });
+            filterDoneBtn.addEventListener('click', () => {
+                currentFilter = 'done';
+                updateFilterButtons('done');
+                showEventsForDate(selectedDate);
+            });
+            filterNotDoneBtn.addEventListener('click', () => {
+                currentFilter = 'not-done';
+                updateFilterButtons('not-done');
+                showEventsForDate(selectedDate);
+            });
+
+            listenForEvents();
             renderCalendar();
             showEventsForDate(selectedDate);
         };
+
     </script>
 </body>
 </html>
