@@ -1,118 +1,36 @@
 <!DOCTYPE html>
-<html lang="id" class="dark"> <!-- Default to dark mode -->
+<html lang="id" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aplikasi Kalender HPRO</title>
-    
-    <!-- PWA (Progressive Web App) Meta Tags -->
+
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Kalender HPRO">
-    <meta name="theme-color" content="#0f172a"> <!-- Dark theme color -->
-    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIkthbGVuZGVyIEhQUk8iLAogICJzaG9ydF9uYW1lIjogIkhQUk8iLAogICJzdGFydF91cmwiOiAiLiIsCiAgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsCiAgImJhY2tncm91bmRfY29sb3IiOiAiI2Y4ZmFmYyIsCiAgInRoZW1lX2NvbG9yIjogIiMzYjgyZjYiLAogICJpY29ucyI6IFsKICAgIHsKICAgICAgInNyYyI6ICJodHRwczovL2luc3RhZ3JhbS5mY2drNDItMS5mbmEuZmJjZG4ubmV0L3YvdDUxLjI4ODUtMTkvMzQ5MDM1MDk1XzYzODA0Nzg0NjUzNzIzODRfNDUzODY3ODgzNzAwNDg2MzM2NV9uLmpwZz9zdHA9ZHN0LWpwZ19zMTUweDE1MF90dDYmX25jX2h0PWluc3RhZ3JhbS5mY2drNDItMS5mbmEuZmJjZG4ubmV0Jl9uY19jYXQ9MTAwJl9uY19vYz1RNmNaMlFFRVhGM1dUZW1Qa3Yyel9Fb211anFycmpLeXE0bVpidVdrRHk3VnZQcC1wY2ZXY1VUdEUzVkhWLWY5LW9URWFrUSZfbmNfb2hjPWU3VWpLVTd0VHpZUTdrTnZ3RnlpcnJPJl9uY19naWQ9cTZCQ0trR2RvZHZKc0loSG1XTFlaUSZlZG09QVA0c2JkNEJBQUFBJmNjYj03LTUmb2g9MDBfQWZTQ1lpMjFfRU4yTU5nM0ZOcUM1QUZROXVuY0RuZUh3TFJ0X01ZekZGM1NsQSZvZT02ODc1OUM4QyZfbmNfc2lkPTdhOWY0YiIsCiAgICAgICJzaXplcyI6ICIxNTB4MTUwIiwKICAgICAgInR5cGUiOiAiaW1hZ2UvanBlZyIKICAgIH0KICBdCn0K">
-    <link rel="apple-touch-icon" href="https://instagram.fcgk42-1.fna.fbcdn.net/v/t51.2885-19/349035095_6380478465372384_4538678837004863365_n.jpg?stp=dst-jpg_s150x150_tt6&_nc_ht=instagram.fcgk42-1.fna.fbcdn.net&_nc_cat=100&_nc_oc=Q6cZ2QEEXF3WTemPkv2z_EomujqrrjKyq4mZbpWkDz7VvQp-pcfWcUTtE3VHV-f9-oTEakQ&_nc_ohc=e7UjKU7tTzYQ7kNvwFyZsrO&_nc_gid=q6BCKkGdodvJrIhHmWLYZQ&edm=AP4sbd4BAAAA&ccb=7-5&oh=00_AfSCYi21_EN2MNg3FNqC5AFQ9uncDneHwLRt_MYzFF3SlA&oe=68759C8C&_nc_sid=7a9f4b">
+    <meta name="theme-color" content="#0f172a">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="images/icon.png">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-        .calendar-grid {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-        }
-        .calendar-day {
-            transition: all 0.2s ease-in-out;
-        }
-        .event-dot {
-            width: 5px;
-            height: 5px;
-            border-radius: 50%;
-        }
-        .modal-backdrop {
-            background-color: rgba(15, 23, 42, 0.5);
-            transition: opacity 0.3s ease;
-        }
-        .modal-content {
-            transition: transform 0.3s ease, opacity 0.3s ease;
-        }
-        .modal.hidden {
-            pointer-events: none;
-        }
-        .modal.hidden .modal-backdrop {
-            opacity: 0;
-        }
-        .modal.hidden .modal-content {
-            transform: scale(0.95) translateY(10px);
-            opacity: 0;
-        }
-        button:disabled {
-            background-color: #94a3b8;
-            cursor: not-allowed;
-            opacity: 0.7;
-        }
-        .filter-btn {
-            color: #475569;
-            background-color: transparent;
-            transition: all 0.2s ease-in-out;
-        }
-        .dark .filter-btn {
-             color: #cbd5e1;
-        }
-        .filter-btn.active {
-            background-color: white;
-            color: #1e293b;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-        }
-        .dark .filter-btn.active {
-            background-color: #475569;
-            color: #f1f5f9;
-        }
-        .custom-checkbox {
-            -webkit-appearance: none;
-            appearance: none;
-            background-color: #fff;
-            margin: 0;
-            font: inherit;
-            color: currentColor;
-            width: 1.25em;
-            height: 1.25em;
-            border: 0.15em solid #cbd5e1;
-            border-radius: 0.25rem;
-            transform: translateY(-0.075em);
-            display: grid;
-            place-content: center;
-            cursor: pointer;
-            transition: all 0.1s ease-in-out;
-        }
-        .custom-checkbox::before {
-            content: "";
-            width: 0.65em;
-            height: 0.65em;
-            transform: scale(0);
-            transition: 120ms transform ease-in-out;
-            box-shadow: inset 1em 1em white;
-            transform-origin: bottom left;
-            clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
-        }
-        .custom-checkbox:checked::before {
-            transform: scale(1);
-        }
-        .custom-checkbox:checked {
-            background-color: #2563eb;
-            border-color: #2563eb;
-        }
-        .dark .custom-checkbox {
-            background-color: #334155;
-            border-color: #64748b;
-        }
-        .dark .custom-checkbox:checked {
-            background-color: #3b82f6;
-            border-color: #3b82f6;
-        }
+        body { font-family: 'Inter', sans-serif; transition: background-color 0.3s ease, color 0.3s ease; }
+        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); }
+        .calendar-day { transition: all 0.2s ease-in-out; }
+        .event-dot { width: 5px; height: 5px; border-radius: 50%; }
+        .modal-backdrop { background-color: rgba(15, 23, 42, 0.5); transition: opacity 0.3s ease; }
+        .modal-content { transition: transform 0.3s ease, opacity 0.3s ease; }
+        .modal.hidden { pointer-events: none; }
+        .modal.hidden .modal-backdrop { opacity: 0; }
+        .modal.hidden .modal-content { transform: scale(0.95) translateY(10px); opacity: 0; }
+        button:disabled { background-color: #94a3b8; cursor: not-allowed; opacity: 0.7; }
+        .filter-btn { color: #cbd5e1; background-color: transparent; transition: all 0.2s ease-in-out; }
+        .filter-btn.active { background-color: #475569; color: #f1f5f9; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .custom-checkbox { -webkit-appearance: none; appearance: none; background-color: #334155; border: 0.15em solid #64748b; margin: 0; font: inherit; color: currentColor; width: 1.25em; height: 1.25em; border-radius: 0.25rem; transform: translateY(-0.075em); display: grid; place-content: center; cursor: pointer; transition: all 0.1s ease-in-out; }
+        .custom-checkbox::before { content: ""; width: 0.65em; height: 0.65em; transform: scale(0); transition: 120ms transform ease-in-out; box-shadow: inset 1em 1em white; transform-origin: bottom left; clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%); }
+        .custom-checkbox:checked::before { transform: scale(1); }
+        .custom-checkbox:checked { background-color: #3b82f6; border-color: #3b82f6; }
     </style>
 </head>
 <body class="bg-slate-900 text-slate-200">
@@ -124,9 +42,9 @@
             <div class="lg:col-span-3">
                 <div class="bg-slate-800 p-6 rounded-2xl shadow-lg">
                     <div class="flex items-center justify-between mb-4">
-                        <button id="prev-month" class="p-2 rounded-full hover:bg-slate-700 transition-colors"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg></button>
+                        <button data-action="prev-month" class="p-2 rounded-full hover:bg-slate-700 transition-colors"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg></button>
                         <h2 id="month-year" class="text-xl font-semibold text-slate-200"></h2>
-                        <button id="next-month" class="p-2 rounded-full hover:bg-slate-700 transition-colors"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg></button>
+                        <button data-action="next-month" class="p-2 rounded-full hover:bg-slate-700 transition-colors"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg></button>
                     </div>
                     <div class="calendar-grid text-center font-medium text-sm text-slate-400 mb-2">
                         <div>Min</div><div>Sen</div><div>Sel</div><div>Rab</div><div>Kam</div><div>Jum</div><div>Sab</div>
@@ -135,42 +53,77 @@
                 </div>
                 <div class="mt-4 flex justify-center">
                     <div class="space-y-4 sm:space-y-0 sm:inline-flex sm:flex-row sm:gap-3 sm:items-center">
-                        <button id="open-add-modal-btn" class="w-full sm:w-auto bg-blue-600 text-white font-semibold px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors shadow-md flex items-center justify-center gap-2">
+                        <button data-action="open-add-modal" class="w-full sm:w-auto bg-blue-600 text-white font-semibold px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors shadow-md flex items-center justify-center gap-2">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" /></svg>
                             Tambah Jadwal
                          </button>
-                         <div class="bg-slate-700 rounded-lg p-1 flex items-center gap-1 w-full sm:w-auto">
-                            <button id="filter-all" class="filter-btn active w-full px-4 py-1.5 text-sm font-semibold rounded-md">Semua</button>
-                            <button id="filter-not-done" class="filter-btn w-full px-4 py-1.5 text-sm font-semibold rounded-md">Belum Dikerjakan</button>
-                            <button id="filter-done" class="filter-btn w-full px-4 py-1.5 text-sm font-semibold rounded-md">Selesai</button>
+                         <div id="filter-container" class="bg-slate-700 rounded-lg p-1 flex items-center gap-1 w-full sm:w-auto">
+                            <button data-action="filter" data-filter="all" class="filter-btn active w-full px-4 py-1.5 text-sm font-semibold rounded-md">Semua</button>
+                            <button data-action="filter" data-filter="not-done" class="filter-btn w-full px-4 py-1.5 text-sm font-semibold rounded-md">Belum</button>
+                            <button data-action="filter" data-filter="done" class="filter-btn w-full px-4 py-1.5 text-sm font-semibold rounded-md">Selesai</button>
                         </div>
                      </div>
                 </div>
+
+                <div id="color-legend" class="mt-6 bg-slate-800 p-4 rounded-2xl shadow-lg">
+                    <h4 class="text-lg font-semibold text-white mb-3">Keterangan Warna</h4>
+                    <div class="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
+                        <div class="flex items-center gap-2">
+                            <span class="w-3 h-3 rounded-full bg-blue-500"></span>
+                            <span class="text-slate-300">Video</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="w-3 h-3 rounded-full bg-green-500"></span>
+                            <span class="text-slate-300">Feed</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="w-3 h-3 rounded-full bg-purple-500"></span>
+                            <span class="text-slate-300">Agenda</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="w-3 h-3 rounded-full bg-orange-500"></span>
+                            <span class="text-slate-300">Flayer</span>
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
-            <div class="lg:col-span-2">
-                 <h3 class="text-2xl font-bold text-white mb-4">Jadwal untuk <span id="selected-date-display" class="text-blue-400"></span></h3>
-                 <div class="bg-slate-800 p-2 rounded-xl shadow-lg min-h-[50vh] lg:max-h-[70vh] overflow-y-auto">
-                    <div id="event-list" class="space-y-2"></div>
-                 </div>
+            <div class="lg:col-span-2 flex flex-col gap-8">
+                <div>
+                    <h3 class="text-2xl font-bold text-white mb-4">Jadwal untuk <span id="selected-date-display" class="text-blue-400"></span></h3>
+                    <div class="bg-slate-800 p-2 rounded-xl shadow-lg max-h-[45vh] overflow-y-auto">
+                       <div id="event-list" class="space-y-2"></div>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-2xl font-bold text-white mb-4">Tugas Terlewat</h3>
+                    <div class="bg-slate-800 p-2 rounded-xl shadow-lg max-h-[45vh] overflow-y-auto">
+                        <div id="overdue-tasks-list" class="space-y-2"></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     <!-- Modal Base -->
-    <div id="modal-template" class="modal fixed inset-0 z-50 flex items-center justify-center hidden">
+    <div id="modal-template" class="modal fixed inset-0 z-50 flex items-center justify-center hidden" data-action="close-modal-backdrop">
         <div class="modal-backdrop fixed inset-0"></div>
         <div class="modal-content bg-slate-800 rounded-xl shadow-2xl p-6 w-full max-w-md m-4 relative"></div>
     </div>
     
     <!-- Toast Notification -->
     <div id="toast-notification" class="fixed bottom-5 right-5 bg-slate-900 text-white py-3 px-5 rounded-lg shadow-lg flex items-center gap-3 transform translate-y-20 opacity-0 transition-all duration-300 ease-out z-50">
-        <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        <svg id="toast-icon" class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
         <p id="toast-message"></p>
-        <button id="close-toast" class="text-slate-400 hover:text-white text-2xl leading-none">&times;</button>
+        <button data-action="close-toast" class="text-slate-400 hover:text-white text-2xl leading-none">&times;</button>
     </div>
 
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js" type="module"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js" type="module"></script>
 
+    <!-- Main App Logic -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getFirestore, collection, addDoc, onSnapshot, query, doc, deleteDoc, updateDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
@@ -187,563 +140,481 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        let currentMonth = new Date().getMonth();
-        let currentYear = new Date().getFullYear();
-        let selectedDate = new Date();
-        let events = [];
-        let currentFilter = 'all'; 
-        let unsubscribe;
-        let notificationShown = false;
-
-        const categoryColors = {
-            konten: 'border-blue-500',
-            agenda: 'border-purple-500',
-            flayer: 'border-orange-500',
-            default: 'border-gray-500'
+        const state = {
+            currentMonth: new Date().getMonth(),
+            currentYear: new Date().getFullYear(),
+            selectedDate: new Date(),
+            events: [],
+            currentFilter: 'all',
+            unsubscribe: null,
+            toastTimeout: null,
         };
-        const categoryColorsBG = {
-            konten: 'bg-blue-500',
-            agenda: 'bg-purple-500',
-            flayer: 'bg-orange-500',
-            default: 'bg-gray-500'
-        };
-        const categoryNames = {
-            konten: 'Konten',
-            agenda: 'Agenda',
-            flayer: 'Flayer (Hari Penting)'
-        };
-        
-        function getFormFieldsHTML(category, prefix = '') {
-            const inputClasses = "w-full px-4 py-2 border border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 bg-slate-700 text-slate-100";
-            switch (category) {
-                case 'konten':
-                    return `
-                        <div class="space-y-3">
-                            <input type="text" id="${prefix}event-title" placeholder="Nama Konten" class="${inputClasses}">
-                            <input type="url" id="${prefix}event-link" placeholder="https://contoh.com" class="${inputClasses}">
-                            <textarea id="${prefix}event-note" placeholder="Note..." class="${inputClasses}" rows="2"></textarea>
-                        </div>
-                    `;
-                case 'agenda':
-                    return `
-                        <div class="space-y-3">
-                            <input type="text" id="${prefix}event-title" placeholder="Nama Kegiatan" class="${inputClasses}">
-                            <input type="time" id="${prefix}event-time" class="${inputClasses}">
-                        </div>
-                    `;
-                case 'flayer':
-                    return `
-                        <input type="text" id="${prefix}event-title" placeholder="Nama Kegiatan" class="${inputClasses}">
-                    `;
-                default:
-                    return '';
-            }
-        }
 
-        function switchFormField(container, category, prefix = '') {
-            container.innerHTML = getFormFieldsHTML(category, prefix);
-        }
+        const DOMElements = {
+            appView: document.getElementById('app-view'),
+            calendarDates: document.getElementById('calendar-dates'),
+            monthYear: document.getElementById('month-year'),
+            selectedDateDisplay: document.getElementById('selected-date-display'),
+            eventList: document.getElementById('event-list'),
+            overdueTasksList: document.getElementById('overdue-tasks-list'),
+            modalTemplate: document.getElementById('modal-template'),
+            modalContent: document.querySelector('#modal-template .modal-content'),
+            toast: document.getElementById('toast-notification'),
+            toastMessage: document.getElementById('toast-message'),
+            filterContainer: document.getElementById('filter-container'),
+        };
 
-        function getDotColorForDate(dateString) {
-            const eventsOnDay = events.filter(event => event.date === dateString);
-            if (eventsOnDay.length === 0) return '';
-            
-            if (eventsOnDay.some(e => e.category === 'flayer')) return categoryColorsBG.flayer;
-            if (eventsOnDay.some(e => e.category === 'agenda')) return categoryColorsBG.agenda;
-            if (eventsOnDay.some(e => e.category === 'konten')) return categoryColorsBG.konten;
-            return categoryColorsBG.default;
-        }
+        const CATEGORY_STYLES = {
+            video:  { border: 'border-blue-500',   bg: 'bg-blue-500'   },
+            feed:   { border: 'border-green-500',  bg: 'bg-green-500'  },
+            agenda: { border: 'border-purple-500', bg: 'bg-purple-500' },
+            flayer: { border: 'border-orange-500', bg: 'bg-orange-500' },
+            default:{ border: 'border-gray-500',   bg: 'bg-gray-500'   },
+        };
+
+        const toYYYYMMDD = (date) => {
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        };
+        const fromYYYYMMDD = (str) => new Date(str + 'T00:00:00');
+        const escapeHtml = (str) => String(str ?? '').replace(/[&<>"']/g, match => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[match]));
 
         function renderCalendar() {
-            const calendarDatesEl = document.getElementById('calendar-dates');
-            const monthYearEl = document.getElementById('month-year');
-            calendarDatesEl.innerHTML = '';
-            const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay();
-            const lastDateOfMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-            const lastDateOfPrevMonth = new Date(currentYear, currentMonth, 0).getDate();
+            DOMElements.calendarDates.innerHTML = '';
+            const date = new Date(state.currentYear, state.currentMonth, 1);
+            DOMElements.monthYear.textContent = date.toLocaleString('id-ID', { month: 'long', year: 'numeric' });
 
-            monthYearEl.textContent = `${new Date(currentYear, currentMonth).toLocaleString('id-ID', { month: 'long', year: 'numeric' })}`;
+            const firstDay = date.getDay();
+            const lastDate = new Date(state.currentYear, state.currentMonth + 1, 0).getDate();
+            const prevLastDate = new Date(state.currentYear, state.currentMonth, 0).getDate();
 
-            for (let i = firstDayOfMonth; i > 0; i--) {
-                calendarDatesEl.innerHTML += `<div class="p-2 h-14 text-center text-slate-500">${lastDateOfPrevMonth - i + 1}</div>`;
+            for (let i = firstDay; i > 0; i--) {
+                const dayEl = document.createElement('div');
+                dayEl.className = 'p-2 h-14 text-center text-slate-500';
+                dayEl.textContent = prevLastDate - i + 1;
+                DOMElements.calendarDates.appendChild(dayEl);
             }
-            
-            for (let i = 1; i <= lastDateOfMonth; i++) {
-                const date = new Date(currentYear, currentMonth, i);
-                const dateString = toYYYYMMDD(date);
+
+            for (let i = 1; i <= lastDate; i++) {
+                const dayDate = new Date(state.currentYear, state.currentMonth, i);
+                const dateString = toYYYYMMDD(dayDate);
+                const isToday = toYYYYMMDD(new Date()) === dateString;
+                const isSelected = toYYYYMMDD(state.selectedDate) === dateString;
+
+                const dayEl = document.createElement('div');
+                dayEl.className = 'calendar-day p-2 h-14 text-center cursor-pointer rounded-full relative flex flex-col items-center justify-center';
+                dayEl.dataset.action = 'select-date';
+                dayEl.dataset.date = dateString;
+                dayEl.textContent = i;
                 
-                const today = new Date();
-                const isToday = i === today.getDate() && currentMonth === today.getMonth() && currentYear === today.getFullYear();
-                const isSelected = date.toDateString() === selectedDate.toDateString();
+                if (isSelected) dayEl.classList.add('bg-gradient-to-br', 'from-blue-500', 'to-blue-600', 'text-white', 'font-bold', 'shadow-md');
+                else if (isToday) dayEl.classList.add('bg-slate-700', 'text-slate-100', 'font-semibold');
+                else dayEl.classList.add('hover:bg-slate-700');
 
-                let classes = 'calendar-day p-2 h-14 text-center cursor-pointer rounded-full relative flex flex-col items-center justify-center';
-
-                if (isSelected) {
-                    classes += ' bg-gradient-to-br from-blue-500 to-blue-600 text-white font-bold shadow-md';
-                } else if (isToday) {
-                    classes += ' bg-slate-700 text-slate-100 font-semibold';
-                } else {
-                    classes += ' hover:bg-slate-700'
+                const eventsOnDay = state.events.filter(e => e.date === dateString);
+                if (eventsOnDay.length > 0) {
+                    const dotEl = document.createElement('div');
+                    dotEl.className = 'event-dot mt-1';
+                    const primaryCategory = ['flayer', 'agenda', 'video', 'feed'].find(cat => eventsOnDay.some(e => e.category === cat)) || 'default';
+                    dotEl.classList.add(CATEGORY_STYLES[primaryCategory]?.bg || CATEGORY_STYLES.default.bg);
+                    dayEl.appendChild(dotEl);
                 }
+                DOMElements.calendarDates.appendChild(dayEl);
+            }
+        }
 
-                const dotColor = getDotColorForDate(dateString);
-                const eventDot = dotColor ? `<div class="event-dot ${dotColor} mt-1"></div>` : '';
+        function renderEventList() {
+            DOMElements.selectedDateDisplay.textContent = state.selectedDate.toLocaleDateString('id-ID', { day: 'numeric', month: 'long' });
+            DOMElements.eventList.innerHTML = '';
+            
+            const dateString = toYYYYMMDD(state.selectedDate);
+            let filteredEvents = state.events.filter(event => event.date === dateString);
 
-                calendarDatesEl.innerHTML += `<div class="${classes}" data-date="${dateString}">${i}${eventDot}</div>`;
+            if (state.currentFilter === 'done') filteredEvents = filteredEvents.filter(event => event.status);
+            else if (state.currentFilter === 'not-done') filteredEvents = filteredEvents.filter(event => !event.status);
+
+            if (filteredEvents.length === 0) {
+                DOMElements.eventList.innerHTML = `
+                    <div class="text-center py-16 px-4">
+                        <svg class="mx-auto h-12 w-12 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                        <h3 class="mt-2 text-sm font-medium text-slate-200">Tidak ada jadwal</h3>
+                        <p class="mt-1 text-sm text-slate-400">Belum ada jadwal untuk tanggal ini.</p>
+                    </div>`;
+                return;
             }
             
-            document.querySelectorAll('.calendar-day[data-date]').forEach(day => {
-                day.addEventListener('click', (e) => {
-                    selectedDate = fromYYYYMMDD(e.currentTarget.dataset.date);
-                    renderCalendar();
-                    showEventsForDate(selectedDate);
-                });
+            filteredEvents.sort((a, b) => (a.time || "23:59").localeCompare(b.time || "23:59"));
+            
+            filteredEvents.forEach(event => {
+                const eventEl = createEventElement(event);
+                DOMElements.eventList.appendChild(eventEl);
+            });
+        }
+        
+        function renderOverdueTasks() {
+            DOMElements.overdueTasksList.innerHTML = '';
+            const selectedDateString = toYYYYMMDD(state.selectedDate);
+
+            const overdueEvents = state.events
+                .filter(event => event.date < selectedDateString && !event.status)
+                .sort((a, b) => a.date.localeCompare(b.date));
+
+            if (overdueEvents.length === 0) {
+                DOMElements.overdueTasksList.innerHTML = `
+                    <div class="text-center py-16 px-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto h-12 w-12 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <h3 class="mt-2 text-sm font-medium text-slate-200">Kerja Bagus!</h3>
+                        <p class="mt-1 text-sm text-slate-400">Tidak ada tugas yang terlewat.</p>
+                    </div>`;
+                return;
+            }
+
+            overdueEvents.forEach(event => {
+                const eventEl = createEventElement(event, true); 
+                DOMElements.overdueTasksList.appendChild(eventEl);
             });
         }
 
-        function showEventsForDate(date) {
-            const selectedDateDisplayEl = document.getElementById('selected-date-display');
-            const eventListEl = document.getElementById('event-list');
-            const dateString = toYYYYMMDD(date);
-            selectedDateDisplayEl.textContent = date.toLocaleDateString('id-ID', { day: 'numeric', month: 'long' });
-            
-            let filteredEvents = events.filter(event => event.date === dateString);
+        function createEventElement(event, showDate = false) {
+            const eventEl = document.createElement('div');
+            const { id, category = 'default', status, title, link, note, time, date } = event;
+            const catStyle = CATEGORY_STYLES[category] || CATEGORY_STYLES.default;
 
-            if (currentFilter === 'done') {
-                filteredEvents = filteredEvents.filter(event => event.status === true);
-            } else if (currentFilter === 'not-done') {
-                filteredEvents = filteredEvents.filter(event => event.status === false || event.status === undefined);
+            eventEl.className = `p-3 rounded-lg border-l-4 ${catStyle.border} flex items-start justify-between gap-4 ${status ? 'bg-slate-700/50' : 'bg-slate-800 shadow-sm'}`;
+            eventEl.dataset.eventId = id;
+
+            let detailsHTML = `<p class="font-semibold text-slate-100">${escapeHtml(title)}</p>`;
+            
+            if (showDate) {
+                const eventDate = fromYYYYMMDD(date);
+                detailsHTML += `<p class="text-xs text-amber-400 font-semibold">${eventDate.toLocaleDateString('id-ID', {day: 'numeric', month: 'long'})}</p>`;
             }
+
+            if (category === 'agenda' && time) {
+                detailsHTML += `<p class="text-sm text-slate-400">${escapeHtml(time)}</p>`;
+            }
+
+            if (link) {
+                detailsHTML += `<a href="${escapeHtml(link)}" target="_blank" rel="noopener noreferrer" class="text-sm text-blue-400 hover:underline break-all">Lihat Konten</a>`;
+            }
+
+            if (note) {
+                detailsHTML += `<p class="text-sm text-slate-400 mt-1 whitespace-pre-wrap">${escapeHtml(note)}</p>`;
+            }
+
+            eventEl.innerHTML = `
+                <div class="flex items-start gap-3 flex-grow">
+                     <input type="checkbox" data-action="toggle-status" class="custom-checkbox status-checkbox mt-1" ${status ? 'checked' : ''}>
+                    <div class="flex-grow ${status ? 'opacity-60 line-through' : ''}">${detailsHTML}</div>
+                </div>
+                <div class="flex items-center gap-1 flex-shrink-0">
+                    <button data-action="edit-event" class="text-slate-400 hover:text-blue-400 p-1 rounded-full">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.536L16.732 3.732z"></path></svg>
+                    </button>
+                    <button data-action="delete-event" class="text-slate-400 hover:text-red-500 p-1 rounded-full">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                    </button>
+                </div>`;
+            return eventEl;
+        }
+
+        function getFormFieldsHTML(category, event = {}) {
+            const inputClasses = "w-full px-4 py-2 border border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 bg-slate-700 text-slate-100";
+            const { link = '', note = '', time = '' } = event;
+            let fields = '<div class="space-y-3">';
             
-            eventListEl.innerHTML = '';
-            
-            if (filteredEvents.length > 0) {
-                filteredEvents.sort((a, b) => (a.time || "23:59").localeCompare(b.time || "23:59"));
-                filteredEvents.forEach(event => {
-                    const eventEl = document.createElement('div');
-                    const isDone = event.status === true;
-                    const category = event.category || 'default';
-                    const catColor = categoryColors[category];
-                    
-                    eventEl.className = `p-3 rounded-lg border-l-4 ${catColor} flex items-start justify-between gap-4 ${isDone ? 'bg-slate-700/50' : 'bg-slate-800 shadow-sm'}`;
-
-                    let eventDetailsHTML = '';
-                    switch (category) {
-                        case 'konten':
-                            eventDetailsHTML = `
-                                <p class="font-semibold text-slate-100">${escapeHtml(event.title)}</p>
-                                ${event.link ? `<a href="${escapeAttr(event.link)}" target="_blank" rel="noopener noreferrer" class="text-sm text-blue-400 hover:underline break-all">Lihat Konten</a>` : ''}
-                                ${event.note ? `<p class="text-sm text-slate-400 mt-1 whitespace-pre-wrap">${escapeHtml(event.note)}</p>` : ''}
-                            `;
-                            break;
-                        case 'agenda':
-                            eventDetailsHTML = `
-                                <p class="font-semibold text-slate-100">${escapeHtml(event.title)}</p>
-                                <p class="text-sm text-slate-400">${escapeHtml(event.time) || 'Sepanjang hari'}</p>
-                            `;
-                            break;
-                        case 'flayer':
-                            eventDetailsHTML = `<p class="font-semibold text-slate-100">${escapeHtml(event.title)}</p>`;
-                            break;
-                    }
-
-                    eventEl.innerHTML = `
-                        <div class="flex items-start gap-3 flex-grow">
-                             <input type="checkbox" data-id="${event.id}" class="custom-checkbox status-checkbox mt-1" ${isDone ? 'checked' : ''}>
-                            <div class="flex-grow ${isDone ? 'opacity-60 line-through' : ''}">
-                                ${eventDetailsHTML}
-                            </div>
-                        </div>
-                        <div class="flex items-center gap-1 flex-shrink-0">
-                            <button data-event='${JSON.stringify(escapeEventData(event))}' class="edit-event-btn text-slate-400 hover:text-blue-400 p-1 rounded-full">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.536L16.732 3.732z"></path></svg>
-                            </button>
-                            <button data-id="${event.id}" class="delete-event-btn text-slate-400 hover:text-red-500 p-1 rounded-full">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-                            </button>
-                        </div>
-                    `;
-                    eventListEl.appendChild(eventEl);
-                });
-
-                document.querySelectorAll('.edit-event-btn').forEach(btn => btn.addEventListener('click', openEditModal));
-                document.querySelectorAll('.delete-event-btn').forEach(btn => btn.addEventListener('click', openDeleteModal));
-                document.querySelectorAll('.status-checkbox').forEach(box => box.addEventListener('change', handleStatusChange));
-
-            } else {
-                eventListEl.innerHTML = `
-                    <div class="text-center py-16 px-4">
-                        <svg class="mx-auto h-12 w-12 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
-                          <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                        </svg>
-                        <h3 class="mt-2 text-sm font-medium text-slate-200">Tidak ada jadwal</h3>
-                        <p class="mt-1 text-sm text-slate-400">Belum ada jadwal untuk filter ini.</p>
+            if (category === 'agenda') {
+                fields += `
+                    <div>
+                        <label class="block text-sm font-medium text-slate-300 mb-1">Waktu (Opsional)</label>
+                        <input type="time" name="time" class="${inputClasses}" value="${escapeHtml(time)}">
                     </div>
                 `;
             }
+            
+            fields += `
+                <div>
+                    <label class="block text-sm font-medium text-slate-300 mb-1">Link (Opsional)</label>
+                    <input type="url" name="link" placeholder="https://contoh.com" class="${inputClasses}" value="${escapeHtml(link)}">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-300 mb-1">Keterangan (Opsional)</label>
+                    <textarea name="note" placeholder="Tulis keterangan di sini..." class="${inputClasses}" rows="3">${escapeHtml(note)}</textarea>
+                </div>
+            `;
+
+            fields += '</div>';
+            return fields;
         }
 
-        async function addEvent() {
-            const category = document.getElementById('add-event-category').value;
-            const data = {
-                category: category,
-                date: toYYYYMMDD(selectedDate),
-                status: false,
-                createdAt: serverTimestamp()
+        function openModal(content) {
+            DOMElements.modalContent.innerHTML = content;
+            DOMElements.modalTemplate.classList.remove('hidden');
+        }
+
+        function closeModal() {
+            DOMElements.modalTemplate.classList.add('hidden');
+            DOMElements.modalContent.innerHTML = '';
+        }
+
+        function showFormModal(isEdit = false, event = {}) {
+            const title = isEdit ? 'Edit Jadwal' : 'Tambah Jadwal Baru';
+            const buttonText = isEdit ? 'Simpan Perubahan' : 'Tambah';
+            const eventIdInput = isEdit ? `<input type="hidden" name="id" value="${event.id}">` : '';
+            const inputClasses = "w-full px-4 py-2 border border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 bg-slate-700 text-slate-100";
+
+            const modalContent = `
+                <form id="event-form" class="space-y-4">
+                    ${eventIdInput}
+                    <h3 class="text-xl font-bold mb-2 text-slate-100">${title}</h3>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-300 mb-1">Pilih Kategori</label>
+                        <select name="category" class="${inputClasses} outline-none transition"></select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-300 mb-1">Nama Kegiatan</label>
+                        <input type="text" name="title" placeholder="Nama Kegiatan" class="${inputClasses}" value="${escapeHtml(event.title || '')}" required>
+                    </div>
+                    <div id="dynamic-form-fields" class="space-y-3"></div>
+                    <div class="mt-6 flex justify-end gap-3">
+                        <button type="button" data-action="close-modal" class="px-4 py-2 bg-slate-600 text-slate-100 rounded-lg hover:bg-slate-500 transition-colors">Batal</button>
+                        <!-- PERBAIKAN: Menambahkan data-action untuk submit dan mengubah type menjadi "button" untuk tombol submit utama -->
+                        <button type="submit" data-action="submit-form" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">${buttonText}</button>
+                    </div>
+                </form>
+            `;
+            openModal(modalContent);
+
+            const form = document.getElementById('event-form');
+            const categorySelect = form.querySelector('[name="category"]');
+            const dynamicFieldsContainer = form.querySelector('#dynamic-form-fields');
+            
+            const categories = {
+                video: 'Video',
+                feed: 'Feed',
+                agenda: 'Agenda',
+                flayer: 'Flayer (Hari Penting)'
             };
 
-            const titleEl = document.getElementById('add-event-title');
-            if (!titleEl || !titleEl.value.trim()) {
-                showNotification('Nama tidak boleh kosong!');
-                return;
-            }
-            data.title = titleEl.value.trim();
+            const categoryToSelect = event.category || 'video';
 
-            switch (category) {
-                case 'konten':
-                    data.link = document.getElementById('add-event-link').value.trim();
-                    data.note = document.getElementById('add-event-note').value.trim();
-                    break;
-                case 'agenda':
-                    data.time = document.getElementById('add-event-time').value;
-                    break;
+            for (const [value, text] of Object.entries(categories)) {
+                const option = document.createElement('option');
+                option.value = value;
+                option.textContent = text;
+                if (value === categoryToSelect) {
+                    option.selected = true;
+                }
+                categorySelect.appendChild(option);
             }
-
-            try {
-                const eventCollection = collection(db, 'public_calendar');
-                await addDoc(eventCollection, data);
-                closeModal();
-            } catch (error) {
-                console.error("Error adding document: ", error);
-                showNotification("Gagal menambahkan jadwal. Silakan coba lagi.");
-            }
-        }
-
-        async function updateEvent() {
-            const eventId = document.getElementById('edit-event-id').value;
-            const category = document.getElementById('edit-event-category').value;
-            const data = { category };
             
-            const titleEl = document.getElementById('edit-event-title');
-            if (!titleEl || !titleEl.value.trim()) {
-                showNotification('Nama tidak boleh kosong!');
+            dynamicFieldsContainer.innerHTML = getFormFieldsHTML(categorySelect.value, event);
+
+            categorySelect.addEventListener('change', () => {
+                dynamicFieldsContainer.innerHTML = getFormFieldsHTML(categorySelect.value, {});
+            });
+
+            // PERBAIKAN: Menambahkan event listener untuk submit form secara eksplisit
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                handleFormSubmit(form);
+            });
+        }
+
+        function showDeleteConfirmationModal(eventId) {
+            const content = `
+                <div class="text-center">
+                    <h3 class="text-lg font-medium text-white">Hapus Jadwal?</h3>
+                    <p class="mt-2 text-sm text-slate-400">Tindakan ini tidak dapat diurungkan.</p>
+                    <div class="mt-6 flex justify-center gap-3">
+                        <button type="button" data-action="close-modal" class="px-4 py-2 bg-slate-600 text-slate-100 rounded-lg hover:bg-slate-500 transition-colors">Batal</button>
+                        <button type="button" data-action="confirm-delete" data-event-id="${eventId}" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors">Ya, Hapus</button>
+                    </div>
+                </div>
+            `;
+            openModal(content);
+        }
+        
+        function showToast(message, type = 'info') {
+            if (state.toastTimeout) clearTimeout(state.toastTimeout);
+            DOMElements.toastMessage.textContent = message;
+            DOMElements.toast.classList.remove('translate-y-20', 'opacity-0');
+            DOMElements.toast.classList.add('translate-y-0', 'opacity-100');
+            
+            state.toastTimeout = setTimeout(() => {
+                DOMElements.toast.classList.add('translate-y-20', 'opacity-0');
+            }, 4000);
+        }
+        
+        // --- Fungsi Firebase ---
+        async function handleFormSubmit(form) {
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+            const eventId = data.id;
+            const isEdit = !!eventId;
+
+            if (!data.category) {
+                 showToast('Kategori harus dipilih!', 'error');
+                 return;
+            }
+            if (!data.title || !data.title.trim()) {
+                showToast('Nama kegiatan tidak boleh kosong!', 'error');
                 return;
             }
-            data.title = titleEl.value.trim();
 
-            switch (category) {
-                case 'konten':
-                    data.link = document.getElementById('edit-event-link').value.trim();
-                    data.note = document.getElementById('edit-event-note').value.trim();
-                    data.time = null;
-                    break;
-                case 'agenda':
-                    data.time = document.getElementById('edit-event-time').value;
-                    data.link = null;
-                    data.note = null;
-                    break;
-                case 'flayer':
-                     data.time = null;
-                     data.link = null;
-                     data.note = null;
-                    break;
-            }
+            const eventData = {
+                category: data.category,
+                title: data.title,
+                note: data.note || null,
+                link: data.link || null,
+                time: (data.category === 'agenda') ? (data.time || null) : null,
+            };
 
             try {
-                const eventDocRef = doc(db, 'public_calendar', eventId);
-                await updateDoc(eventDocRef, data);
+                if (isEdit) {
+                    const eventDocRef = doc(db, 'public_calendar', eventId);
+                    await updateDoc(eventDocRef, eventData);
+                    showToast('Jadwal berhasil diperbarui.');
+                } else {
+                    eventData.date = toYYYYMMDD(state.selectedDate);
+                    eventData.status = false;
+                    eventData.createdAt = serverTimestamp();
+                    
+                    Object.keys(eventData).forEach(key => {
+                        if (eventData[key] === null) {
+                            delete eventData[key];
+                        }
+                    });
+
+                    const eventCollection = collection(db, 'public_calendar');
+                    await addDoc(eventCollection, eventData);
+                    showToast('Jadwal berhasil ditambahkan.');
+                }
                 closeModal();
             } catch (error) {
-                console.error("Error updating document: ", error);
-                showNotification("Gagal memperbarui jadwal.");
+                console.error("Error saving document: ", error);
+                showToast('Gagal menyimpan jadwal. Coba lagi.', 'error');
             }
         }
 
-        async function updateEventStatus(eventId, status) {
+        async function handleToggleStatus(eventId, status) {
             try {
                 const eventDocRef = doc(db, 'public_calendar', eventId);
                 await updateDoc(eventDocRef, { status });
             } catch (error) {
                 console.error("Error updating status: ", error);
-                showNotification("Gagal memperbarui status.");
+                showToast('Gagal memperbarui status.', 'error');
             }
         }
 
-        async function deleteEvent(eventId) {
+        async function handleDeleteEvent(eventId) {
             try {
                 const eventDocRef = doc(db, 'public_calendar', eventId);
                 await deleteDoc(eventDocRef);
+                showToast('Jadwal telah dihapus.');
+                closeModal();
             } catch (error) {
                 console.error("Error deleting document: ", error);
-                showNotification("Gagal menghapus jadwal.");
+                showToast('Gagal menghapus jadwal.', 'error');
             }
         }
-        
+
         function listenForEvents() {
-            if (unsubscribe) unsubscribe(); 
-            const eventCollection = collection(db, 'public_calendar');
-            const q = query(eventCollection);
+            if (state.unsubscribe) state.unsubscribe(); 
+            const q = query(collection(db, 'public_calendar'));
             
-            unsubscribe = onSnapshot(q, (querySnapshot) => {
-                events = [];
-                querySnapshot.forEach((doc) => {
-                    events.push({ id: doc.id, ...doc.data() });
-                });
-
-                if (!notificationShown) {
-                    const todayString = toYYYYMMDD(new Date());
-                    const eventsForToday = events.filter(event => event.date === todayString);
-                    if (eventsForToday.length > 0) {
-                        showToast(`Anda memiliki ${eventsForToday.length} jadwal hari ini.`);
-                        notificationShown = true;
-                    }
-                }
-
+            state.unsubscribe = onSnapshot(q, (querySnapshot) => {
+                state.events = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                 renderCalendar();
-                showEventsForDate(selectedDate);
+                renderEventList();
+                renderOverdueTasks();
             }, (error) => {
                 console.error("Error listening to events: ", error);
-                if (error.code === 'permission-denied') {
-                    showNotification("Error: Izin Ditolak. Pastikan Aturan Keamanan (Security Rules) di Firebase sudah diatur untuk mengizinkan akses publik.");
-                } else {
-                    showNotification("Gagal memuat data jadwal. Periksa koneksi Anda.");
-                }
+                showToast("Gagal memuat data. Pastikan Security Rules benar.", 'error');
             });
         }
         
-        function closeModal() {
-            const modalTemplate = document.getElementById('modal-template');
-            modalTemplate.classList.add('hidden');
-        }
-
-        function openAddModal() {
-            const modalTemplate = document.getElementById('modal-template');
-            const modalContent = modalTemplate.querySelector('.modal-content');
-            modalContent.innerHTML = `
-                <h3 class="text-xl font-bold mb-4 text-slate-100">Tambah Jadwal Baru</h3>
-                <div class="space-y-3">
-                    <div>
-                        <label for="add-event-category" class="block text-sm font-medium text-slate-300 mb-1">Pilih Kategori</label>
-                        <select id="add-event-category" class="w-full px-4 py-2 border border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 bg-slate-700 text-slate-100 outline-none transition">
-                            <option value="konten">Konten</option>
-                            <option value="agenda">Agenda</option>
-                            <option value="flayer">Flayer (Hari Penting)</option>
-                        </select>
-                    </div>
-                    <div id="dynamic-add-form-fields"></div>
-                </div>
-                <div class="mt-6 flex justify-end gap-3">
-                    <button id="cancel-add-btn" class="px-4 py-2 bg-slate-600 text-slate-100 rounded-lg hover:bg-slate-500 transition-colors">Batal</button>
-                    <button id="add-event-btn" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">Tambah</button>
-                </div>
-            `;
+        // --- Event Delegation ---
+        function handleAppClick(e) {
+            const target = e.target;
+            const actionTarget = target.closest('[data-action]');
             
-            const categorySelect = document.getElementById('add-event-category');
-            const dynamicFieldsContainer = document.getElementById('dynamic-add-form-fields');
-            
-            switchFormField(dynamicFieldsContainer, categorySelect.value, 'add-');
-            categorySelect.addEventListener('change', (e) => switchFormField(dynamicFieldsContainer, e.target.value, 'add-'));
+            if (!actionTarget) return;
 
-            document.getElementById('cancel-add-btn').addEventListener('click', closeModal);
-            document.getElementById('add-event-btn').addEventListener('click', addEvent);
-            modalTemplate.querySelector('.modal-backdrop').addEventListener('click', closeModal);
+            const action = actionTarget.dataset.action;
             
-            modalTemplate.classList.remove('hidden');
-        }
-
-        function openEditModal(e) {
-            const event = JSON.parse(e.currentTarget.dataset.event);
-            const modalTemplate = document.getElementById('modal-template');
-            const modalContent = modalTemplate.querySelector('.modal-content');
-
-            modalContent.innerHTML = `
-                <h3 class="text-xl font-bold mb-4 text-slate-100">Edit Jadwal</h3>
-                <div class="space-y-4">
-                    <input type="hidden" id="edit-event-id" value="${event.id}">
-                    <div>
-                        <label for="edit-event-category" class="block text-sm font-medium text-slate-300 mb-1">Kategori</label>
-                        <select id="edit-event-category" class="w-full px-4 py-2 border border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 bg-slate-700 text-slate-100 outline-none transition">
-                            <option value="konten">Konten</option>
-                            <option value="agenda">Agenda</option>
-                            <option value="flayer">Flayer (Hari Penting)</option>
-                        </select>
-                    </div>
-                    <div id="dynamic-edit-form-fields"></div>
-                </div>
-                <div class="mt-6 flex justify-end gap-3">
-                    <button id="cancel-edit-btn" class="px-4 py-2 bg-slate-600 text-slate-100 rounded-lg hover:bg-slate-500 transition-colors">Batal</button>
-                    <button id="save-edit-btn" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">Simpan Perubahan</button>
-                </div>
-            `;
-
-            const categorySelect = document.getElementById('edit-event-category');
-            const dynamicFieldsContainer = document.getElementById('dynamic-edit-form-fields');
-            categorySelect.value = event.category || 'konten';
-            
-            switchFormField(dynamicFieldsContainer, categorySelect.value, 'edit-');
-            
-            document.getElementById('edit-event-title').value = event.title || '';
-            switch (event.category) {
-                case 'konten':
-                    document.getElementById('edit-event-link').value = event.link || '';
-                    document.getElementById('edit-event-note').value = event.note || '';
+            switch(action) {
+                case 'prev-month':
+                    state.currentMonth--;
+                    if (state.currentMonth < 0) { state.currentMonth = 11; state.currentYear--; }
+                    renderCalendar();
                     break;
-                case 'agenda':
-                    document.getElementById('edit-event-time').value = event.time || '';
+                case 'next-month':
+                    state.currentMonth++;
+                    if (state.currentMonth > 11) { state.currentMonth = 0; state.currentYear++; }
+                    renderCalendar();
                     break;
-            }
-
-            categorySelect.addEventListener('change', (e) => switchFormField(dynamicFieldsContainer, e.target.value, 'edit-'));
-            document.getElementById('cancel-edit-btn').addEventListener('click', closeModal);
-            document.getElementById('save-edit-btn').addEventListener('click', updateEvent);
-            modalTemplate.querySelector('.modal-backdrop').addEventListener('click', closeModal);
-            
-            modalTemplate.classList.remove('hidden');
-        }
-
-        function openDeleteModal(e) {
-            const eventId = e.currentTarget.dataset.id;
-            const modalTemplate = document.getElementById('modal-template');
-            const modalContent = modalTemplate.querySelector('.modal-content');
-            modalContent.innerHTML = `
-                <h3 class="text-lg font-medium text-white text-center">Hapus Jadwal?</h3>
-                <p class="mt-2 text-sm text-slate-400 text-center">Apakah Anda yakin ingin menghapus jadwal ini? Tindakan ini tidak dapat diurungkan.</p>
-                <div class="mt-6 flex justify-center gap-3">
-                    <button id="cancel-delete-btn" class="px-4 py-2 bg-slate-600 text-slate-100 rounded-lg hover:bg-slate-500 transition-colors">Batal</button>
-                    <button id="confirm-delete-btn" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors">Ya, Hapus</button>
-                </div>
-            `;
-            document.getElementById('cancel-delete-btn').addEventListener('click', closeModal);
-            document.getElementById('confirm-delete-btn').addEventListener('click', async () => {
-                await deleteEvent(eventId);
-                closeModal();
-            });
-            modalTemplate.querySelector('.modal-backdrop').addEventListener('click', closeModal);
-            modalTemplate.classList.remove('hidden');
-        }
-
-        function showNotification(message) {
-            const modalTemplate = document.getElementById('modal-template');
-            const modalContent = modalTemplate.querySelector('.modal-content');
-            modalContent.innerHTML = `
-                <p class="text-slate-200 text-center">${message}</p>
-                <div class="mt-6 flex justify-center gap-3">
-                    <button id="notification-ok-btn" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">Oke</button>
-                </div>
-            `;
-            document.getElementById('notification-ok-btn').addEventListener('click', closeModal);
-            modalTemplate.querySelector('.modal-backdrop').addEventListener('click', closeModal);
-            modalTemplate.classList.remove('hidden');
-        }
-
-        function showToast(message) {
-            const toast = document.getElementById('toast-notification');
-            const toastMessage = document.getElementById('toast-message');
-            const closeToastBtn = document.getElementById('close-toast');
-
-            toastMessage.textContent = message;
-            toast.classList.remove('translate-y-20', 'opacity-0');
-            toast.classList.add('translate-y-0', 'opacity-100');
-
-            const hideToast = () => {
-                toast.classList.remove('translate-y-0', 'opacity-100');
-                toast.classList.add('translate-y-20', 'opacity-0');
-            };
-
-            closeToastBtn.onclick = hideToast;
-
-            setTimeout(hideToast, 5000); // Hide after 5 seconds
-        }
-
-        function handleStatusChange(e) {
-            const eventId = e.target.dataset.id;
-            const isDone = e.target.checked;
-            updateEventStatus(eventId, isDone);
-        }
-
-        function escapeAttr(str) {
-            if (typeof str !== 'string') return '';
-            return str.replace(/"/g, '&quot;');
-        }
-        function escapeHtml(str) {
-            if (typeof str !== 'string') return '';
-            return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
-        }
-        function escapeEventData(event) {
-            const newEvent = {};
-            for (const key in event) {
-                if (typeof event[key] === 'string') {
-                    newEvent[key] = escapeHtml(event[key]);
-                } else {
-                    newEvent[key] = event[key];
+                case 'select-date':
+                    state.selectedDate = fromYYYYMMDD(actionTarget.dataset.date);
+                    renderCalendar();
+                    renderEventList();
+                    renderOverdueTasks();
+                    break;
+                case 'open-add-modal':
+                    showFormModal(false);
+                    break;
+                case 'filter':
+                    state.currentFilter = actionTarget.dataset.filter;
+                    DOMElements.filterContainer.querySelector('.active').classList.remove('active');
+                    actionTarget.classList.add('active');
+                    renderEventList();
+                    break;
+                case 'toggle-status': {
+                    const eventId = actionTarget.closest('[data-event-id]').dataset.eventId;
+                    handleToggleStatus(eventId, actionTarget.checked);
+                    break;
                 }
+                case 'edit-event': {
+                    const eventId = actionTarget.closest('[data-event-id]').dataset.eventId;
+                    const eventToEdit = state.events.find(ev => ev.id === eventId);
+                    if (eventToEdit) showFormModal(true, eventToEdit);
+                    break;
+                }
+                case 'delete-event': {
+                    const eventId = actionTarget.closest('[data-event-id]').dataset.eventId;
+                    showDeleteConfirmationModal(eventId);
+                    break;
+                }
+                case 'confirm-delete':
+                    handleDeleteEvent(actionTarget.dataset.eventId);
+                    break;
+                case 'close-modal':
+                case 'close-modal-backdrop':
+                    if (action === 'close-modal-backdrop' && e.target !== actionTarget) return;
+                    closeModal();
+                    break;
+                case 'close-toast':
+                    DOMElements.toast.classList.add('translate-y-20', 'opacity-0');
+                    break;
+                // PERBAIKAN: Menghapus case 'submit-form' dari sini karena sudah ditangani oleh event listener 'submit' pada form
             }
-            return newEvent;
         }
 
-        function toYYYYMMDD(date) {
-            return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
-        }
-        
-        function fromYYYYMMDD(str) {
-            const parts = str.split('-');
-            return new Date(parts[0], parts[1] - 1, parts[2]);
-        }
-
-        function updateFilterButtons(activeFilter) {
-            const filterAllBtn = document.getElementById('filter-all');
-            const filterDoneBtn = document.getElementById('filter-done');
-            const filterNotDoneBtn = document.getElementById('filter-not-done');
-            [filterAllBtn, filterDoneBtn, filterNotDoneBtn].forEach(btn => {
-                btn.classList.remove('active');
-            });
-            document.getElementById(`filter-${activeFilter.replace('_','-')}`).classList.add('active');
-        }
-        
-        // --- EVENT LISTENERS & INITIALIZATION ---
+        // --- Inisialisasi Aplikasi ---
         document.addEventListener('DOMContentLoaded', () => {
-            const openAddModalBtn = document.getElementById('open-add-modal-btn');
-            const prevMonthBtn = document.getElementById('prev-month');
-            const nextMonthBtn = document.getElementById('next-month');
-            const filterAllBtn = document.getElementById('filter-all');
-            const filterDoneBtn = document.getElementById('filter-done');
-            const filterNotDoneBtn = document.getElementById('filter-not-done');
+            DOMElements.appView.addEventListener('click', handleAppClick);
+            DOMElements.modalTemplate.addEventListener('click', handleAppClick);
+            document.getElementById('toast-notification').addEventListener('click', handleAppClick);
             
-            openAddModalBtn.addEventListener('click', openAddModal);
-
-            prevMonthBtn.addEventListener('click', () => {
-                currentMonth--;
-                if (currentMonth < 0) { currentMonth = 11; currentYear--; }
-                renderCalendar();
-            });
-
-            nextMonthBtn.addEventListener('click', () => {
-                currentMonth++;
-                if (currentMonth > 11) { currentMonth = 0; currentYear++; }
-                renderCalendar();
-            });
-
-            filterAllBtn.addEventListener('click', () => {
-                currentFilter = 'all';
-                updateFilterButtons('all');
-                showEventsForDate(selectedDate);
-            });
-            filterDoneBtn.addEventListener('click', () => {
-                currentFilter = 'done';
-                updateFilterButtons('done');
-                showEventsForDate(selectedDate);
-            });
-            filterNotDoneBtn.addEventListener('click', () => {
-                currentFilter = 'not-done';
-                updateFilterButtons('not-done');
-                showEventsForDate(selectedDate);
-            });
-
             listenForEvents();
             renderCalendar();
-            showEventsForDate(selectedDate);
+            renderEventList();
+            renderOverdueTasks();
         });
-
     </script>
 </body>
 </html>
